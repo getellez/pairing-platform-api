@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 import { Dashboard } from "../types/dashboard.model";
 
-const DashboardSchema = new mongoose.Schema<Dashboard>({
+const DashboardSchema = new mongoose.Schema({
   _id: mongoose.Types.ObjectId,
   title: String,
   members: [
@@ -27,6 +27,6 @@ const DashboardSchema = new mongoose.Schema<Dashboard>({
   ],
 });
 
-const DashboardModel = mongoose.model("dashboards", DashboardSchema);
+const DashboardModel = mongoose.model<Dashboard>("dashboards", DashboardSchema);
 
 export default DashboardModel;
