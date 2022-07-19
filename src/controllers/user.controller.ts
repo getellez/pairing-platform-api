@@ -38,10 +38,11 @@ export const signin = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  if (!req.body.email || !req.body.password) {
+  console.log("req.body", req.body);
+  if (!req.body.email || !req.body.password || !req.body.dashboard_name) {
     return res
       .status(400)
-      .send({ message: "Please. Send your email and password" });
+      .send({ message: "Please. Send your email, password and dashboardName" });
   }
 
   const user = await UserModel.findOne({ email: req.body.email });
