@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 
 import { getDashboardById } from "../controllers/dashboard.controller";
 import DashboardModel from "../models/dashboard.model";
@@ -6,11 +7,11 @@ import { Dashboard } from "../types/dashboard.model";
 
 const dashboardRouter = Router();
 
-dashboardRouter.get("/:id", async (_req, res) => {
-  const dashboardId = "62d1da628ac5f31e8848d36c";
-  const data = await getDashboardById(dashboardId);
-  res.send(data);
-});
+dashboardRouter.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  getDashboardById
+);
 
 dashboardRouter.post("/:id", async (req, res) => {
   const payload: Dashboard = req.body;
