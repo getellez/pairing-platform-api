@@ -8,27 +8,34 @@ export const signup = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  if (!req.body.email || !req.body.password || !req.body.dashboardName) {
+  const user: IUser = req.body;
+
+  if (!user.email || !user.password || !user.dashboardName) {
     return res.status(400).json({
       message: "Please. Send your email, password and the dashboard name",
     });
   }
-  const existingUser = await UserModel.findOne({ email: req.body.email });
-  console.log("existingUser", existingUser);
+
+  const existingUser = await UserModel.findOne({
+    dashboardName: user.dashboardName,
+  });
+
   if (existingUser) {
-    return res.status(400).send({ message: "This user already exists." });
+    return res
+      .status(400)
+      .send({ message: "This dashboard name already exists." });
   }
-  const newUser = await UserModel.create(req.body);
-  console.log("newUser", newUser);
+
+  const newUser = await UserModel.create(user);
   return res.status(201).send(newUser);
 };
 
 const createToken = (user: IUser) => {
   const token = jwt.sign(
-    { id: user.id, email: user.email },
+    { id: user.id, email: user.email, dashboardName: user.dashboardName },
     config.JWT_SECRET,
     {
-      expiresIn: 86400,
+      expiresIn: 1800,
     }
   );
   return token;
@@ -38,26 +45,29 @@ export const signin = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  console.log("req.body", req.body);
-  if (!req.body.email || !req.body.password || !req.body.dashboard_name) {
+  const payload: IUser = req.body;
+  if (!payload.dashboardName || !payload.password) {
     return res
       .status(400)
-      .send({ message: "Please. Send your email, password and dashboardName" });
+      .send({ message: "Please. Send your password and the dashboard name," });
   }
 
-  const user = await UserModel.findOne({ email: req.body.email });
+  const user = await UserModel.findOne({
+    dashboardName: payload.dashboardName,
+  });
+
   if (!user) {
     return res
       .status(400)
-      .send({ message: "This user doesn't exit or is incorrect" });
+      .send({ message: "This dashboard doesn't exit or is incorrect" });
   }
 
-  const validPassword = await user.comparePassword(req.body.password);
+  const validPassword = await user.comparePassword(payload.password);
 
   if (validPassword) {
     const token = createToken(user);
     return res.status(200).json({ token });
   }
 
-  return res.status(400).send({ message: "Email or Password is incorrect" });
+  return res.status(400).send({ message: "Dashboard or Password incorrect" });
 };

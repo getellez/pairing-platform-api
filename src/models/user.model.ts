@@ -4,6 +4,7 @@ import { Document, model, Schema } from "mongoose";
 export interface IUser extends Document {
   email: string;
   password: string;
+  dashboardName: string;
   comparePassword: (password: string) => Promise<boolean>;
 }
 
@@ -17,6 +18,11 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
+    required: true,
+  },
+  dashboardName: {
+    type: String,
+    unique: true,
     required: true,
   },
 });
