@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import { Dashboard } from "../types/dashboard.model";
 
 const DashboardSchema = new mongoose.Schema({
-  _id: mongoose.Types.ObjectId,
   title: String,
   members: [
     {

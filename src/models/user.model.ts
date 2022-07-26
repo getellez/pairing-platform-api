@@ -8,6 +8,11 @@ export interface IUser extends Document {
   comparePassword: (password: string) => Promise<boolean>;
 }
 
+export interface LoginCredentials {
+  dashboardName: string;
+  password: string;
+}
+
 const UserSchema = new Schema({
   email: {
     type: String,

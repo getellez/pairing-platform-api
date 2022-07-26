@@ -8,7 +8,7 @@ import { Dashboard } from "../types/dashboard.model";
 const dashboardRouter = Router();
 
 dashboardRouter.get(
-  "/:id",
+  "/:dashboardId",
   passport.authenticate("jwt", { session: false }),
   getDashboardById
 );

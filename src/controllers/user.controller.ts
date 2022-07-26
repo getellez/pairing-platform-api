@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { config } from "../config/index";
-import UserModel, { IUser } from "../models/user.model";
+import UserModel, { IUser, LoginCredentials } from "../models/user.model";
+import { createDashboard } from "../services/user.services";
 
 export const signup = async (
   req: Request,
@@ -27,6 +28,7 @@ export const signup = async (
   }
 
   const newUser = await UserModel.create(user);
+  await createDashboard(newUser.dashboardName);
   return res.status(201).send(newUser);
 };
 
@@ -45,11 +47,11 @@ export const signin = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const payload: IUser = req.body;
+  const payload: LoginCredentials = req.body;
   if (!payload.dashboardName || !payload.password) {
     return res
       .status(400)
-      .send({ message: "Please. Send your password and the dashboard name," });
+      .send({ message: "Please. Send your password and the dashboard name" });
   }
 
   const user = await UserModel.findOne({

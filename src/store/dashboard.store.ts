@@ -1,7 +1,9 @@
 import DashboardModel from "../models/dashboard.model";
 import { Dashboard } from "../types/dashboard.model";
 
-export const getDashboard = async (id: string): Promise<Dashboard | null> => {
-  const dashboard = await DashboardModel.findOne({ _id: id });
+export const getDashboard = async (
+  title: string
+): Promise<Dashboard | null> => {
+  const dashboard = await DashboardModel.findOne({ title });
   return dashboard || null;
 };
