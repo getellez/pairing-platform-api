@@ -13,14 +13,18 @@ dashboardRouter.get(
   getDashboardById
 );
 
-dashboardRouter.post("/:id", async (req, res) => {
-  const payload: Dashboard = req.body;
-  const dashboard = await DashboardModel.updateOne(
-    { _id: payload._id },
-    payload
-  );
+dashboardRouter.post(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const payload: Dashboard = req.body;
+    const dashboard = await DashboardModel.updateOne(
+      { _id: payload._id },
+      payload
+    );
 
-  res.status(201).send(dashboard);
-});
+    res.status(201).send(dashboard);
+  }
+);
 
 export default dashboardRouter;

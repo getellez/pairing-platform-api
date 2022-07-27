@@ -37,7 +37,7 @@ const createToken = (user: IUser) => {
     { id: user.id, email: user.email, dashboardName: user.dashboardName },
     config.JWT_SECRET,
     {
-      expiresIn: 1800,
+      expiresIn: 86400,
     }
   );
   return token;
