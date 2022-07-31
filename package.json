@@ -1,7 +1,7 @@
 {
   "name": "typescript-api-skeleton",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pairing Platform API",
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/server.js",
