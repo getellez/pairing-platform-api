@@ -61,7 +61,7 @@ export const signin = async (
   if (!user) {
     return res
       .status(400)
-      .send({ message: "This dashboard doesn't exit or is incorrect" });
+      .send({ message: "This dashboard doesn't exist or is incorrect" });
   }
 
   const validPassword = await user.comparePassword(payload.password);
