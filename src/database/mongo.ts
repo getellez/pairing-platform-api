@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-import { config } from "../config";
+import { currentEnvConfig } from "../config/index";
 
 export const connectDb = (): void => {
-  const uri: string = config.MONGO_URI;
+  const uri: string = currentEnvConfig.MONGO_URI;
   mongoose.connect(uri);
   mongoose.connection.once("open", () => {
     console.log("[MONGO] Connection stablished");

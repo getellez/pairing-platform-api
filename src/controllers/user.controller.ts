@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-import { config } from "../config/index";
+import { currentEnvConfig } from "../config/index";
 import UserModel, { IUser, LoginCredentials } from "../models/user.model";
 import { createDashboard } from "../services/user.services";
 
@@ -35,7 +35,7 @@ export const signup = async (
 const createToken = (user: IUser) => {
   const token = jwt.sign(
     { id: user.id, email: user.email, dashboardName: user.dashboardName },
-    config.JWT_SECRET,
+    currentEnvConfig.JWT_SECRET,
     {
       expiresIn: 86400,
     }
