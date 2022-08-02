@@ -71,5 +71,7 @@ export const signin = async (
     return res.status(200).json({ token });
   }
 
-  return res.status(400).send({ message: "Dashboard or Password incorrect" });
+  return res
+    .status(400)
+    .send({ message: "The dashboard or password is incorrect" });
 };
