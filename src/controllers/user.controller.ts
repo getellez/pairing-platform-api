@@ -17,14 +17,24 @@ export const signup = async (
     });
   }
 
-  const existingUser = await UserModel.findOne({
+  const existingDashboard = await UserModel.findOne({
     dashboardName: user.dashboardName,
   });
+
+  const existingUser = await UserModel.findOne({
+    email: user.email,
+  });
+
+  if (existingDashboard) {
+    return res
+      .status(400)
+      .send({ message: "This dashboard name already exists." });
+  }
 
   if (existingUser) {
     return res
       .status(400)
-      .send({ message: "This dashboard name already exists." });
+      .send({ message: "This email is already registered." });
   }
 
   const newUser = await UserModel.create(user);
