@@ -18,7 +18,7 @@ export const signup = async (
   }
 
   const existingDashboard = await UserModel.findOne({
-    dashboardName: user.dashboardName,
+    dashboardName: String(user.dashboardName).toUpperCase(),
   });
 
   const existingUser = await UserModel.findOne({
@@ -38,7 +38,7 @@ export const signup = async (
   }
 
   const newUser = await UserModel.create(user);
-  await createDashboard(newUser.dashboardName);
+  await createDashboard(String(newUser.dashboardName).toUpperCase());
   return res.status(201).send(newUser);
 };
 
